@@ -73,19 +73,19 @@ public class BookDAO {
 
 		return bookList;
 	}
-	
+
 	// 저자별 출판물 리스트 출력
-	public List<BookBean> getBooksByAuthor(BookBean book){
-		
+	public List<BookBean> getBooksByAuthor(BookBean book) {
+
 		String sql = "select * from book where author = ?";
-		
+
 		conn = DAO.connect();
-		
+
 		List<BookBean> list = new ArrayList<>();
-		
+
 		try {
 			psmt = conn.prepareStatement(sql);
-			
+
 			psmt.setString(1, book.getAuthor());
 			rs = psmt.executeQuery();
 
@@ -103,92 +103,112 @@ public class BookDAO {
 		} finally {
 			close();
 		}
-		
+
 		return list;
 	}
-	
+
 	// 한 건 입력 BookBean insertBook(BookBean book)
 	public int insertBook(BookBean book) {
-		
+
 		int result = 0;
-		
+
 		conn = DAO.connect();
-		
+
 		String sql = "insert into book values (?, ?, ?)";
-		
+
 		try {
 			psmt = conn.prepareStatement(sql);
-			
+
 			psmt.setString(1, book.getTitle());
 			psmt.setString(2, book.getAuthor());
 			psmt.setString(3, book.getPublisher());
-			
+
 			result = psmt.executeUpdate();
-			
-			if(result != 0) {
+
+			if (result != 0) {
 				System.out.println(result + "건 입력.");
 			} else {
 				System.out.println("입력 실패.");
 			}
-		
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close();
 		}
-		
+
 		return result;
 	}
-	
+
 	// 한 건 삭제
 	public int deleteBook(BookBean book) {
-		
+
 		int result = 0;
-		
+
 		conn = DAO.connect();
-		
-		String sql = "delete book ";
-		
+
+		String sql = "delete from book where book_title = ?";
+
 		try {
 			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, book.getTitle());
+
+			result = psmt.executeUpdate();
+
+			if (result != 0) {
+				System.out.println(result + "건 삭제.");
+			} else {
+				System.out.println("삭제 실패.");
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close();
 		}
-		
+
 		return result;
 	}
-	
+
 	// 한 건 수정
 	public int modifyBook(BookBean book) {
-		
+
 		int result = 0;
-		
+
 		conn = DAO.connect();
-		
-		String sql = "update book set ";
-		
+
+		String sql = "update book set book_author = ?, book_publisher = ? where book_title = ?";
+
 		try {
 			psmt = conn.prepareStatement(sql);
+
+			psmt.setString(1, book.getAuthor());
+			psmt.setString(2, book.getPublisher());
+			psmt.setString(3, book.getTitle());
+
+			result = psmt.executeUpdate();
+
+			if (result != 0) {
+				System.out.println(result + "건 수정.");
+			} else {
+				System.out.println("수정 실패.");
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close();
 		}
-		
+
 		return result;
 	}
-	
+
 	public void close() {
 
 		try {
-			if (rs != null)
-				rs.close();
-			if (psmt != null)
-				psmt.close();
-			if (conn != null)
-				conn.close();
+			if (rs != null) rs.close();
+			if (psmt != null) psmt.close();
+			if (conn != null) conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

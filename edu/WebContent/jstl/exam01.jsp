@@ -21,7 +21,7 @@
 	라이브러리를 불러왔으면 아래처럼 쓴다.
 	
 	jstl = jsp standard Tag library
-	jsp = javaServerPage 
+	jsp = javaServerPage
 	-->
 	
 	<%
