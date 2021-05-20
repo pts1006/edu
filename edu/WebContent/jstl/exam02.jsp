@@ -48,7 +48,7 @@
 	<br>
 	<c:forEach items = "${list }" var = "item">
 		${item.title } / ${item.author } / ${item.publisher }<br>
-		<!-- 해당 값이 반복문이니까 마지막에 "br"태그 넣어 주면 하나씩 띄워 줌 -->
+		<!-- 해당 값이 일반 반복문이니까 마지막에 "br"태그 넣어 주면 하나씩 띄워 줌 -->
 	</c:forEach>
 </body>
 </html>
